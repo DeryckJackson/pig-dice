@@ -23,16 +23,16 @@ PigDiceGame.prototype.onRoll = function(player){
 
   if (roll === 1){
     this.playerTurnChange()
-    return false
+    return roll
   } else { 
     player.currentScore += roll
-    return true
+    return roll
   }
 }
 
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 
 //Business logic for Player
@@ -46,7 +46,14 @@ Player.prototype.addCurrentToTotal = function() {
 }
 
 
-
+//User Interface Logic
+function playerRoll(pigDice, playerOne, playerTwo){
+  if (pigDice.playerTurn === 1) {
+    return pigDice.onRoll(playerOne)
+  } else {
+    return pigDice.onRoll(playerTwo)
+  }
+}
 
 $(document).ready(function() {
   //event.preventDefault()
@@ -58,14 +65,17 @@ $(document).ready(function() {
   $("#player-turn").text(pigDice.playerTurn)
   
   $("#roll").submit(function() {
-    
+    event.preventDefault()
+    $("div.dice").text(playerRoll(pigDice, playerOne, playerTwo))
+
+
+    $("#p1-current-score").text(playerOne.currentScore)
+    $("#p2-current-score").text(playerTwo.currentScore)
     $("#player-turn").text(pigDice.playerTurn)
   })
 
   $("#hold").submit(function() {
-    
+    event.preventDefault()
     $("#player-turn").text(pigDice.playerTurn)
   })
-
-  //User Interface
 })
