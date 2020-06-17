@@ -2,7 +2,13 @@
   text-align: center;
 }
 
-.box {
+.justify-box {
   display: flex;
   justify-content: center;
+}
+
+.column-box {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

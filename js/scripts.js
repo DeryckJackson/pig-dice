@@ -18,7 +18,9 @@ PigDiceGame.prototype.playerTurnChange = function(){
   }
 }
 
-PigDiceGame.prototype.onRoll = function(roll, player){
+PigDiceGame.prototype.onRoll = function(player){
+  let roll = getRandomInt(1, 6)
+
   if (roll === 1){
     this.playerTurnChange()
     return false
@@ -27,6 +29,11 @@ PigDiceGame.prototype.onRoll = function(roll, player){
     return true
   }
 }
+
+function getRandomInt(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 
 //Business logic for Player
 function Player(){
@@ -42,7 +49,7 @@ Player.prototype.addCurrentToTotal = function() {
 
 
 $(document).ready(function() {
-  event.preventDefault()
+  //event.preventDefault()
   let pigDice = new PigDiceGame();
   let playerOne = new Player();
   let playerTwo = new Player();
