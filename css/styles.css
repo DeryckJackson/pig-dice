@@ -12,3 +12,12 @@
   justify-content: center;
   flex-direction: column;
 }
+
+.container2 {
+  display: flex;
+  justify-content: center;
+}
+
+#startOver {
+  display: none;
+}

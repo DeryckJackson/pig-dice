@@ -12,10 +12,12 @@
 <body>
   <div class="container">
     <h1 class="jumbotron">Pig Dice Game</h1>
-    <p class="justify-box">Player Turn: <span id="player-turn"></span></p>
-    <div class="dice">
+    <p class="justify-box">Player Turn: <span id="player-turn"> </span></p>
+    <br>
+    <div class="dice justify-box">
 
     </div>
+    <br>
     <div class="buttons justify-box">
       <form id="roll" action="roll">
         <button type="submit" class="btn btn-primary">Roll</button>
@@ -24,25 +26,29 @@
         <button type="submit" class="btn btn-primary">Hold</button>
       </form>
     </div>
-    <div class="row">
-      <div class="col-md-6">
+    <br>
+    <div class="container2">
+      <div class="justify-box">
         <div class="player1 panel panel-default">
           <div class="panel-body">
             <p>Player 1</p>
-            <p>Current score: <span id="p1-current-score"></span></p>
-            <p>Total score: <span id="p1-total-score"></span></p>
+            <p>Current score: <span id="p1-current-score">0</span></p>
+            <p>Total score: <span id="p1-total-score">0</span></p>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="justify-box">
         <div class="player2 panel panel-default">
           <div class="panel-body">
             <p>Player 2</p>
-            <p>Current score: <span id="p2-current-score"></span></p>
-            <p>Total score: <span id="p2-total-score"></span></p>
+            <p>Current score: <span id="p2-current-score">0</span></p>
+            <p>Total score: <span id="p2-total-score">0</span></p>
           </div>
         </div>
       </div>
+    </div>
+    <div class="buttons justify-box">
+      <button type="button" id="startOver" class="btn btn-primary">Start Over</button>
     </div>
   </div>
 </body>
