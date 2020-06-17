@@ -23,11 +23,18 @@ PigDiceGame.prototype.onRoll = function(player){
 
   if (roll === 1){
     this.playerTurnChange()
+    player.currentScore = 0
     return roll
   } else { 
     player.currentScore += roll
     return roll
   }
+}
+
+PigDiceGame.prototype.onHold = function(player){
+  player.totalScore += player.currentScore
+  player.currentScore = 0
+  this.playerTurnChange()
 }
 
 function getRandomInt(min, max){
@@ -55,8 +62,23 @@ function playerRoll(pigDice, playerOne, playerTwo){
   }
 }
 
+function playerHold(pigDice, playerOne, playerTwo){
+  if (pigDice.playerTurn === 1){
+    pigDice.onHold(playerOne)
+  } else{
+    pigDice.onHold(playerTwo)
+  }
+}
+
+function isWinner(playerOne, playerTwo){
+  if (playerOne.totalScore >= 100){
+    return "PLAYER ONE WINS"
+  } else if (playerTwo.totalScore >= 100){
+    return "PLAYER TWO WINS"
+  } 
+}
+
 $(document).ready(function() {
-  //event.preventDefault()
   let pigDice = new PigDiceGame();
   let playerOne = new Player();
   let playerTwo = new Player();
@@ -76,6 +98,12 @@ $(document).ready(function() {
 
   $("#hold").submit(function() {
     event.preventDefault()
+    playerHold(pigDice, playerOne, playerTwo)
+    $("#p1-current-score").text(playerOne.currentScore)
+    $("#p2-current-score").text(playerTwo.currentScore)
+    $("#p1-total-score").text(playerOne.totalScore)
+    $("#p2-total-score").text(playerTwo.totalScore)
     $("#player-turn").text(pigDice.playerTurn)
+    $("div.dice").text(isWinner(playerOne, playerTwo))
   })
 })
