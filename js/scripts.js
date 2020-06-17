@@ -2,7 +2,7 @@
 function PigDiceGame() {
   this.players = [];
   this.turnNumber = 0;
-  this.scoreToWin = 100;
+  this.scoreToWin = 10;
   this.playerTurn = 1;
 };
 
@@ -68,12 +68,12 @@ function playerHold(pigDice, playerOne, playerTwo){
   };
 };
 
-function isWinner(playerOne, playerTwo){
-  if (playerOne.totalScore >= 10){
+function isWinner(pigDice, playerOne, playerTwo){
+  if (playerOne.totalScore >= pigDice.scoreToWin){
     $("#roll, #hold").hide();
     $("#startOver").show();
     return "PLAYER ONE WINS";
-  } else if (playerTwo.totalScore >= 10){
+  } else if (playerTwo.totalScore >= pigDice.scoreToWin){
     $("#roll, #hold").hide();
     $("#startOver").show();
     return "PLAYER TWO WINS";
@@ -107,7 +107,7 @@ $(document).ready(function() {
     playerHold(pigDice, playerOne, playerTwo);
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
-    $("div.dice").text(isWinner(playerOne, playerTwo));
+    $("div.dice").text(isWinner(pigDice, playerOne, playerTwo));
   });
 
   $("#startOver").click(function() {
