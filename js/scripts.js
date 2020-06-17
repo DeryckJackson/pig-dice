@@ -2,7 +2,7 @@
 function PigDiceGame() {
   this.players = [];
   this.turnNumber = 0;
-  this.scoreToWin = 10;
+  this.scoreToWin = 100;
   this.playerTurn = 1;
 };
 
@@ -51,7 +51,14 @@ Player.prototype.addCurrentToTotal = function() {
   this.totalScore += this.currentScore;
 };
 
-//User Interface Logic
+function playerHold(pigDice, playerOne, playerTwo){
+  if (pigDice.playerTurn === 1) {
+    pigDice.onHold(playerOne);
+  } else {
+    pigDice.onHold(playerTwo);
+  };
+};
+
 function playerRoll(pigDice, playerOne, playerTwo){
   if (pigDice.playerTurn === 1) {
     return pigDice.onRoll(playerOne);
@@ -60,6 +67,8 @@ function playerRoll(pigDice, playerOne, playerTwo){
   };
 };
 
+
+//User Interface Logic
 function showDice(roll) {
   switch (roll){
     case 1:
@@ -87,15 +96,7 @@ function showDice(roll) {
       $("#diceSix").show();
       break;
     default:
-      alert("Something has gone horribly wrong.")
-  }
-}
-
-function playerHold(pigDice, playerOne, playerTwo){
-  if (pigDice.playerTurn === 1) {
-    pigDice.onHold(playerOne);
-  } else {
-    pigDice.onHold(playerTwo);
+      alert("Something has gone horribly wrong.");
   };
 };
 
@@ -111,12 +112,26 @@ function isWinner(pigDice, playerOne, playerTwo){
   };
 };
 
+function cycleDiceImgs() {
+  for (i = 0; i <= 10; i++) {
+    setTimeout(function(){showDice(getRandomInt(1, 6))}, 100 * i)
+  }
+  return new Promise(resolve => {setTimeout (function() {resolve()}, 1000)});
+};
+
 function displayScore(p1, p2) {
   $("#p1-current-score").text(p1.currentScore);
   $("#p2-current-score").text(p2.currentScore);
   $("#p1-total-score").text(p1.totalScore);
   $("#p2-total-score").text(p2.totalScore);
-}
+};
+
+async function animationAwaitOutput(pigDice, playerOne, playerTwo){
+  await cycleDiceImgs()
+  showDice(playerRoll(pigDice, playerOne, playerTwo));
+  displayScore(playerOne, playerTwo)
+  $("#player-turn").text(pigDice.playerTurn);
+};
 
 $(document).ready(function() {
   let pigDice = new PigDiceGame();
@@ -128,9 +143,7 @@ $(document).ready(function() {
   
   $("#roll").submit(function() {
     event.preventDefault();
-    showDice(playerRoll(pigDice, playerOne, playerTwo));
-    displayScore(playerOne, playerTwo)
-    $("#player-turn").text(pigDice.playerTurn);
+    animationAwaitOutput(pigDice, playerOne, playerTwo);
   });
 
   $("#hold").submit(function() {
@@ -138,7 +151,6 @@ $(document).ready(function() {
     playerHold(pigDice, playerOne, playerTwo);
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
-    // $("div.dice").children("img").hide()
     $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));
   });
 
