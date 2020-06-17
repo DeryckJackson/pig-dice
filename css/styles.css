@@ -21,3 +21,8 @@
 #startOver {
   display: none;
 }
+
+.winner {
+  display: flex;
+  justify-content: center;
+}

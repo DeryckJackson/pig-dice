@@ -60,6 +60,37 @@ function playerRoll(pigDice, playerOne, playerTwo){
   };
 };
 
+function showDice(roll) {
+  switch (roll){
+    case 1:
+      $("#diceTwo, #diceThree, #diceFour, #diceFive, #diceSix").hide();
+      $("#diceOne").show();
+      break;
+    case 2:
+      $("#diceOne, #diceThree, #diceFour, #diceFive, #diceSix").hide();
+      $("#diceTwo").show();
+      break;
+    case 3:
+      $("#diceOne, #diceTwo, #diceFour, #diceFive, #diceSix").hide();
+      $("#diceThree").show();
+      break;
+    case 4:
+      $("#diceOne, #diceTwo, #diceThree, #diceFive, #diceSix").hide();
+      $("#diceFour").show();
+      break;
+    case 5:
+      $("#diceOne, #diceTwo, #diceThree, #diceFour, #diceSix").hide();
+      $("#diceFive").show();
+      break;
+    case 6:
+      $("#diceOne, #diceTwo, #diceThree, #diceFour, #diceFive").hide();
+      $("#diceSix").show();
+      break;
+    default:
+      alert("Something has gone horribly wrong.")
+  }
+}
+
 function playerHold(pigDice, playerOne, playerTwo){
   if (pigDice.playerTurn === 1) {
     pigDice.onHold(playerOne);
@@ -97,7 +128,7 @@ $(document).ready(function() {
   
   $("#roll").submit(function() {
     event.preventDefault();
-    $("div.dice").text(playerRoll(pigDice, playerOne, playerTwo));
+    showDice(playerRoll(pigDice, playerOne, playerTwo));
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
   });
@@ -107,7 +138,8 @@ $(document).ready(function() {
     playerHold(pigDice, playerOne, playerTwo);
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
-    $("div.dice").text(isWinner(pigDice, playerOne, playerTwo));
+    // $("div.dice").children("img").hide()
+    $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));
   });
 
   $("#startOver").click(function() {
