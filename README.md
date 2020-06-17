@@ -1,9 +1,9 @@
-#  _{title}_
+#  _Pig Dice_
 
 #### _{brief desc}_
-##### __Created:__ 5/29/2020
-##### __Last Updated:__ 6/3/2020 
-##### By _**Tyson Lackey**_  
+##### __Created:__ 6/17/2020
+##### __Last Updated:__ 6/17/2020 
+##### By _**Tyson Lackey & Deryck Jackson**_  
 
 ## Description
 
@@ -13,11 +13,13 @@ _{detailed desc}_
 
 | Spec| Example input | Example Output
 | ----------- | ----------- | ----------- |
-| Behavior | input | output |
-| Behavior | input | output |
-| Behavior | input | output |
-| Behavior | input | output |
-| Behavior | input | output |
+| When button: "roll" is clicked, a random number between 1-6 is returned | click-> "roll" | "5" |
+| When a number is rolled, the value is added to the player's score. | "5" | Player Score: 5 |
+| When button: "hold" is clicked, the player's turn ends their score is saved ot their total score.  | click-> "hold" | -> Player 2's turn |
+| If a 1 is rolled, the player's turn ends and their score for that round is 0 | "1" | round score: "0" |
+| If a player's total score is equal to or greater than 100, the game ends and that player wins | n/a | n/a |
+
+
 | Behavior | input | output |
 | Behavior | input | output |
 
