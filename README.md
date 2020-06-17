@@ -1,13 +1,10 @@
 #  _Pig Dice_
 
-#### _{brief desc}_
+#### _2 player pig-dice game_
 ##### __Created:__ 6/17/2020
 ##### __Last Updated:__ 6/17/2020 
 ##### By _**Tyson Lackey & Deryck Jackson**_  
 
-## Description
-
-_{detailed desc}_
 
 ## Behaviors
 
@@ -19,9 +16,6 @@ _{detailed desc}_
 | If a 1 is rolled, the player's turn ends and their score for that round is 0 | "1" | round score: "0" |
 | If a player's total score is equal to or greater than 100, the game ends and that player wins | n/a | n/a |
 
-
-| Behavior | input | output |
-| Behavior | input | output |
 
 ## Setup/Installation Requirements
 
@@ -37,8 +31,8 @@ _{detailed desc}_
 ##### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open via Bash/GitBash:
 
 1. Clone this repository onto your computer:
-    "git clone {github repo URL}"
-2. Navigate into the "{project name}" directory in Visual Studio Code or preferred text editor:
+    "git clone https://github.com/Lackeyt/pig-dice"
+2. Navigate into the "pig-dice" directory in Visual Studio Code or preferred text editor:
 3. Open the project
     "code ."
 3. Open index.html in your browser:
