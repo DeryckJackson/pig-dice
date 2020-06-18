@@ -59,7 +59,7 @@ Ai.prototype.rollDice = function(pigDiceGame) {
 function aiRollCheck(pigDiceGame, aiPlayer){
   return new Promise((resolve) => {
     while (pigDiceGame.playerTurn === 2) {
-      if (aiPlayer.currentScore > 5){
+      if (aiPlayer.currentScore + aiPlayer.TotalScore >= 100 || aiPlayer.currentScore > 20){
         pigDiceGame.onHold(aiPlayer)
       } else {
         aiPlayer.rollDice(pigDiceGame)
@@ -164,25 +164,68 @@ function displayScore(p1, p2) {
 $(document).ready(function() {
   let pigDice = new PigDiceGame();
   let playerOne = new Player();
-  let playerTwo = new Ai();
+  let playerTwo
   pigDice.addPlayer(playerOne);
   pigDice.addPlayer(playerTwo);
   $("#player-turn").text(pigDice.playerTurn);
   
-  $("#roll").submit(async function() {
+
+  $("#playVsPlayer").submit(async function() {
+    event.preventDefault();
+    playerTwo = new Player();
+    $("div.gameBoard").show()
+    $("div.playerSelect").hide()
+    $("#rollAI").hide()
+    $("#holdAI").hide()
+  });
+
+  $("#playVsComputer").submit(async function() {
+    event.preventDefault();
+    playerTwo = new Ai();
+    $("div.gameBoard").show()
+    $("div.playerSelect").hide()
+    $("#rollPlayer").hide()
+    $("#holdPlayer").hide()
+  });
+
+
+  $("#rollPlayer").submit(async function() {
+    event.preventDefault();
+    await cycleDiceImgs()
+    await showDice(playerRoll(pigDice, playerOne, playerTwo));
+    //await aiRollCheck(pigDice, playerTwo)
+    displayScore(playerOne, playerTwo)
+    $("#player-turn").text(pigDice.playerTurn);
+    $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));
+  });
+
+
+
+  $("#holdPlayer").submit(async function() {
+    event.preventDefault();
+    playerHold(pigDice, playerOne, playerTwo);
+    //await aiRollCheck(pigDice, playerTwo)
+    displayScore(playerOne, playerTwo)
+    $("#player-turn").text(pigDice.playerTurn);
+    $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));
+  });
+
+  $("#rollAI").submit(async function() {
     event.preventDefault();
     await cycleDiceImgs()
     await showDice(playerRoll(pigDice, playerOne, playerTwo));
     await aiRollCheck(pigDice, playerTwo)
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
+    $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));
   });
 
 
 
-  $("#hold").submit(function() {
+  $("#holdAI").submit(async function() {
     event.preventDefault();
     playerHold(pigDice, playerOne, playerTwo);
+    await aiRollCheck(pigDice, playerTwo)
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
     $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));

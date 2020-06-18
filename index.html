@@ -10,7 +10,19 @@
   <title>Pig Dice</title>
 </head>
 <body>
-  <div class="container">
+  <div class="container playerSelect">
+      <h1 class="jumbotron">Pig Dice Game</h1>
+      <br>
+      <div class="buttons justify-box">
+        <form id="playVsPlayer" action="roll">
+          <button type="submit" class="btn btn-primary">Play Against a Friend</button>
+        </form>
+        <form id="playVsComputer" action="hold">
+          <button type="submit" class="btn btn-primary">Play Against the Computer</button>
+        </form>
+    </div>
+  </div>
+  <div class="container gameBoard">
     <h1 class="jumbotron">Pig Dice Game</h1>
     <h2 class="justify-box">Player Turn:&nbsp;<span id="player-turn"></span></h2>
     <br>
@@ -27,12 +39,20 @@
     </div>
     <br>
     <div class="buttons justify-box">
-      <form id="roll" action="roll">
+      <form id="rollPlayer" action="roll">
         <button type="submit" class="btn btn-primary">Roll</button>
       </form>
-      <form id="hold" action="hold">
+      <form id="holdPlayer" action="hold">
         <button type="submit" class="btn btn-primary">Hold</button>
       </form>
+      <form id="rollAI" action="roll">
+        <button type="submit" class="btn btn-primary">Roll</button>
+      </form>
+      <form id="holdAI" action="hold">
+        <button type="submit" class="btn btn-primary">Hold</button>
+      </form>
+
+
     </div>
     <br>
     <div class="container2">
