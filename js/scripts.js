@@ -126,12 +126,12 @@ function displayScore(p1, p2) {
   $("#p2-total-score").text(p2.totalScore);
 };
 
-async function animationAwaitOutput(pigDice, playerOne, playerTwo){
-  await cycleDiceImgs()
-  showDice(playerRoll(pigDice, playerOne, playerTwo));
-  displayScore(playerOne, playerTwo)
-  $("#player-turn").text(pigDice.playerTurn);
-};
+//async function animationAwaitOutput(pigDice, playerOne, playerTwo){
+//  await cycleDiceImgs()
+//  showDice(playerRoll(pigDice, playerOne, playerTwo));
+//  displayScore(playerOne, playerTwo)
+//  $("#player-turn").text(pigDice.playerTurn);
+//};
 
 $(document).ready(function() {
   let pigDice = new PigDiceGame();
@@ -141,9 +141,12 @@ $(document).ready(function() {
   pigDice.addPlayer(playerTwo);
   $("#player-turn").text(pigDice.playerTurn);
   
-  $("#roll").submit(function() {
+  $("#roll").submit(async function() {
     event.preventDefault();
-    animationAwaitOutput(pigDice, playerOne, playerTwo);
+    await cycleDiceImgs()
+    showDice(playerRoll(pigDice, playerOne, playerTwo));
+    displayScore(playerOne, playerTwo)
+    $("#player-turn").text(pigDice.playerTurn);
   });
 
   $("#hold").submit(function() {
