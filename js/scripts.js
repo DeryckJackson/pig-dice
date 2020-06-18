@@ -17,6 +17,31 @@ PigDiceGame.prototype.playerTurnChange = function(){
   };
 };
 
+PigDiceGame.prototype.playerRoll = function(){
+  let roll = getRandomInt(1, 6);
+  
+  switch(this.playerTurn){
+  case 1:
+    if (roll === 1){
+      this.playerTurnChange();
+      this.players[0].currentScore = 0;
+      return roll;
+    } else { 
+      this.players[0].currentScore += roll;
+      return roll;
+    };
+  case 2:
+    if (roll === 1){
+      this.playerTurnChange();
+      this.players[1].currentScore = 0;
+      return roll;
+    } else { 
+      this.players[1].currentScore += roll;
+      return roll;
+    };
+  };
+};
+
 PigDiceGame.prototype.playerHold = function(){
   switch(this.playerTurn){
   case 1:
@@ -32,41 +57,9 @@ PigDiceGame.prototype.playerHold = function(){
   };
 };
 
-PigDiceGame.prototype.Roll = function() {
-
-}
-
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
-// Business logic for AI
-//function Ai(){
-//  this.currentScore = 0
-//  this.totalScore = 0
-//}
-
-// -move to UI logic- checks if AI turn, rolls until current score 20
-Player.prototype.aiRollCheck = function(pigDiceGame){
-  return new Promise((resolve) => {
-    while (pigDiceGame.playerTurn === 2) {
-      if (this.currentScore + this.TotalScore >= 100 || this.currentScore > 20){
-        this.totalScore += this.currentScore;
-        this.currentScore = 0;
-        pigDiceGame.playerTurnChange();
-      } else {
-        let roll = getRandomInt(1, 6);
-        if (roll === 1){
-          pigDiceGame.playerTurnChange();
-          this.currentScore = 0;
-        } else { 
-          this.currentScore += roll;
-        };
-      }
-    }
-    resolve();
-  })
-}
   
 //Business logic for Player
 function Player(){
@@ -74,31 +67,45 @@ function Player(){
   this.totalScore = 0;
 };
 
-function playerRoll(pigDice, playerOne, playerTwo){
+Player.prototype.roll = function(pigDiceGame){
   let roll = getRandomInt(1, 6);
-  
-  switch(pigDice.playerTurn){
-  case 1:
-    if (roll === 1){
-      pigDice.playerTurnChange();
-      playerOne.currentScore = 0;
-      return roll;
-    } else { 
-      playerOne.currentScore += roll;
-      return roll;
-    };
-  case 2:
-    if (roll === 1){
-      pigDice.playerTurnChange();
-      playerTwo.currentScore = 0;
-      return roll;
-    } else { 
-      playerTwo.currentScore += roll;
-      return roll;
-    };
+  if (roll === 1){
+    pigDiceGame.playerTurnChange();
+    this.currentScore = 0;
+  } else { 
+    this.currentScore += roll;
   };
-};
+}
 
+Player.prototype.hold = function(pigDiceGame){
+  this.totalScore += this.currentScore;
+  this.currentScore = 0;
+  pigDiceGame.playerTurnChange();
+}
+
+// checks game state and rolls or holds for AI
+Player.prototype.aiRoll = function(pigDiceGame){
+  return new Promise((resolve) => {
+    while (pigDiceGame.playerTurn === 2) {
+      if (this.currentScore + this.totalScore >= 100){
+        this.hold(pigDiceGame)
+      } else if (pigDiceGame.players[0].totalScore > this.totalScore){
+        if (this.currentScore + this.totalScore >= pigDiceGame.players[0].totalScore){
+          this.hold(pigDiceGame)
+        } else {
+          this.roll(pigDiceGame)
+        }
+      } else if (pigDiceGame.players[0].totalScore <= this.totalScore) {
+        if (this.currentScore < 20){
+          this.roll(pigDiceGame)
+        } else {
+          this.hold(pigDiceGame)
+        };
+      };
+    };
+    resolve();
+  });
+};
 
 //User Interface Logic
 //Dice Roll display
@@ -175,7 +182,6 @@ $(document).ready(function() {
 
   $("#playVsPlayer").submit(async function() {
     event.preventDefault();
-    //playerTwo = new Player();
     $("div.gameBoard").show()
     $("div.playerSelect").hide()
     $("#rollAI").hide()
@@ -184,7 +190,6 @@ $(document).ready(function() {
 
   $("#playVsComputer").submit(async function() {
     event.preventDefault();
-    //playerTwo = new Ai();
     $("div.gameBoard").show()
     $("div.playerSelect").hide()
     $("#rollPlayer").hide()
@@ -194,7 +199,7 @@ $(document).ready(function() {
   $("#rollPlayer").submit(async function() {
     event.preventDefault();
     await cycleDiceImgs()
-    await showDice(playerRoll(pigDice, playerOne, playerTwo));
+    await showDice(pigDice.playerRoll());
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
     $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));
@@ -211,8 +216,8 @@ $(document).ready(function() {
   $("#rollAI").submit(async function() {
     event.preventDefault();
     await cycleDiceImgs()
-    await showDice(playerRoll(pigDice, playerOne, playerTwo));
-    await playerTwo.aiRollCheck(pigDice)
+    await showDice(pigDice.playerRoll());
+    await playerTwo.aiRoll(pigDice)
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
     $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));
@@ -221,7 +226,7 @@ $(document).ready(function() {
   $("#holdAI").submit(async function() {
     event.preventDefault();
     pigDice.playerHold();
-    await playerTwo.aiRollCheck(pigDice)
+    await playerTwo.aiRoll(pigDice)
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
     $("div.winner").children("h3").append(isWinner(pigDice, playerOne, playerTwo));
