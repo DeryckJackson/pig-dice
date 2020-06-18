@@ -15,6 +15,13 @@
 | When button: "hold" is clicked, the player's turn ends their score is saved ot their total score.  | click-> "hold" | -> Player 2's turn |
 | If a 1 is rolled, the player's turn ends and their score for that round is 0 | "1" | round score: "0" |
 | If a player's total score is equal to or greater than 100, the game ends and that player wins | n/a | n/a |
+| User can select to play against AI or another user | Player or AI | Play player or AI |
+| AI can roll dice | Player Holds | Dice roll |
+| AI knows when it rolls a one and pauses to let player roll | n/a | One on dice, Pause |
+| AI knows it's score and will hold after 2 successful rolls | n/a | Two dice rolls, Hold |
+| AI stops and asks the player if they would like to play again if AI wins | Score: >= 100 | "Looks like I win, Would you like to play again?" |
+| AI uses advanced strategy to try and win against player | Player score | Strategy |
+|  | n/a | n/a |
 
 
 ## Setup/Installation Requirements

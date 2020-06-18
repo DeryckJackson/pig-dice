@@ -126,13 +126,6 @@ function displayScore(p1, p2) {
   $("#p2-total-score").text(p2.totalScore);
 };
 
-//async function animationAwaitOutput(pigDice, playerOne, playerTwo){
-//  await cycleDiceImgs()
-//  showDice(playerRoll(pigDice, playerOne, playerTwo));
-//  displayScore(playerOne, playerTwo)
-//  $("#player-turn").text(pigDice.playerTurn);
-//};
-
 $(document).ready(function() {
   let pigDice = new PigDiceGame();
   let playerOne = new Player();
@@ -148,6 +141,8 @@ $(document).ready(function() {
     displayScore(playerOne, playerTwo)
     $("#player-turn").text(pigDice.playerTurn);
   });
+
+
 
   $("#hold").submit(function() {
     event.preventDefault();
